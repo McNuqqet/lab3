@@ -14,21 +14,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MapData data = MapData.get();
-        System.out.println(data.get(5,1).getNorthEast());
         FragmentManager fm = getSupportFragmentManager();
         FragmentMap fragMap = (FragmentMap) fm.findFragmentById(R.id.map);
-        FragmentSelector fragSelector = (FragmentSelector) fm.findFragmentById(R.id.selector);
+        MapData data = MapData.get();
+        //FragmentSelector fragSelector = (FragmentSelector) fm.findFragmentById(R.id.selector);
 
 
         if(fragMap == null) {
             fragMap = new FragmentMap(data);
             fm.beginTransaction().add(R.id.map, fragMap).commit();
         }
-
+/*
         if(fragSelector == null) {
             fragSelector = new FragmentSelector();
             fm.beginTransaction().add(R.id.selector, fragSelector).commit();
-        }
+        }*/
     }
 }
