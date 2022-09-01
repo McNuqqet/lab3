@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MapData data = MapData.get();
+        System.out.println(data.get(5,1).getNorthEast());
         FragmentManager fm = getSupportFragmentManager();
         FragmentMap fragMap = (FragmentMap) fm.findFragmentById(R.id.map);
         FragmentSelector fragSelector = (FragmentSelector) fm.findFragmentById(R.id.selector);

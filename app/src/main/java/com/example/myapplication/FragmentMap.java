@@ -65,11 +65,11 @@ public class FragmentMap extends Fragment {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(R.layout.grid_cell, parent,false);
-
+/*
             int size = parent.getMeasuredHeight() / MapData.HEIGHT + 1;
             ViewGroup.LayoutParams lp = view.getLayoutParams();
             lp.width = size;
-            lp.height = size;
+            lp.height = size;*/
 
             ViewHolder myViewHolder = new ViewHolder(view);
             return myViewHolder;
@@ -77,7 +77,6 @@ public class FragmentMap extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            //holder.itemName.setText(data.get(position).getName());
             int row = position % MapData.HEIGHT;
             int col = position / MapData.HEIGHT;
             holder.bind(data.get(row, col));
