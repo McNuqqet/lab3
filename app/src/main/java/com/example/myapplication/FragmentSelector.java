@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,9 +24,21 @@ public class FragmentSelector extends Fragment {
         this.data = data;
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView imageTitle;
+        Structure struct;
+        ImageView image;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            imageTitle = itemView.findViewById(R.id.imageTitle);
+            image = itemView.findViewById(R.id.image);
+        }
+
+        public void bind(Structure structure) {
+            struct = structure;
+            image.setImageResource(struct.getDrawableId());
+            imageTitle.setText(struct.getLabel());
+
         }
     }
     public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
@@ -38,26 +52,19 @@ public class FragmentSelector extends Fragment {
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-            View view = layoutInflater.inflate(R.layout.grid_cell,parent,false);
-            int size = parent.getMeasuredHeight() / MapData.HEIGHT + 1;
-            ViewGroup.LayoutParams lp = view.getLayoutParams();
-            lp.width = size;
-            lp.height = size;
-
+            View view = layoutInflater.inflate(R.layout.list_selection,parent,false);
             MyViewHolder myViewHolder = new MyViewHolder(view);
             return myViewHolder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            int row = position % MapData.HEIGHT;
-            int col = position / MapData.HEIGHT;
-            holder.bind(data.get(row, col));
+            holder.bind(data.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return MapData.HEIGHT * MapData.WIDTH;
+            return data.size();
         }
     }
 
@@ -66,9 +73,10 @@ public class FragmentSelector extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
-        RecyclerView rv = view.findViewById(R.id.mapRecyclerView);
-        rv.setLayoutManager(new LinearLayoutManager());
+        View view = inflater.inflate(R.layout.fragment_selector, container, false);
+        RecyclerView rv = view.findViewById(R.id.selectorRecyclerView);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
         MyAdapter myAdapter = new MyAdapter(data);
         rv.setAdapter(myAdapter);
         return view;
