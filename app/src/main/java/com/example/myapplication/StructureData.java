@@ -30,6 +30,12 @@ public class StructureData
     private List<Structure> structureList = Arrays.asList(new Structure[] {
         new Structure(R.drawable.ic_building1, "House"),
         new Structure(R.drawable.ic_building2, "House"),
+        new Structure(R.drawable.ic_building3, "House"),
+        new Structure(R.drawable.ic_building4, "House"),
+        new Structure(R.drawable.ic_building5, "House"),
+        new Structure(R.drawable.ic_building6, "House"),
+        new Structure(R.drawable.ic_building7, "House"),
+        new Structure(R.drawable.ic_building8, "House"),
         new Structure(R.drawable.ic_road_ns, "Road"),
         new Structure(R.drawable.ic_road_ew, "Road"),
         new Structure(R.drawable.ic_road_nsew, "Road"),

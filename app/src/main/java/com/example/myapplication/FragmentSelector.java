@@ -39,6 +39,7 @@ public class FragmentSelector extends Fragment {
             image.setImageResource(struct.getDrawableId());
             imageTitle.setText(struct.getLabel());
 
+
         }
     }
     public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
