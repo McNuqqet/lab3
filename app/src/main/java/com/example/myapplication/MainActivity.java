@@ -16,18 +16,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FragmentManager fm = getSupportFragmentManager();
         FragmentMap fragMap = (FragmentMap) fm.findFragmentById(R.id.map);
-        MapData data = MapData.get();
-        //FragmentSelector fragSelector = (FragmentSelector) fm.findFragmentById(R.id.selector);
+        MapData mapData = MapData.get();
+        StructureData structData = StructureData.get();
+        FragmentSelector fragSelector = (FragmentSelector) fm.findFragmentById(R.id.selector);
 
 
         if(fragMap == null) {
-            fragMap = new FragmentMap(data);
+            fragMap = new FragmentMap(mapData);
             fm.beginTransaction().add(R.id.map, fragMap).commit();
         }
-/*
+
         if(fragSelector == null) {
-            fragSelector = new FragmentSelector();
+            fragSelector = new FragmentSelector(structData);
             fm.beginTransaction().add(R.id.selector, fragSelector).commit();
-        }*/
+        }
     }
 }

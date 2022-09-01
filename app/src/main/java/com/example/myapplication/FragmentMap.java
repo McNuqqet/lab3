@@ -4,22 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 
 public class FragmentMap extends Fragment {
-
-
     MapData data;
-
     public FragmentMap() {
         // Required empty public constructor
     }
@@ -36,17 +30,15 @@ public class FragmentMap extends Fragment {
         ImageView structure;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            System.out.println("1");
-            northWest = itemView.findViewById(R.id.grid1);
-            northEast = itemView.findViewById(R.id.grid2);
-            southWest = itemView.findViewById(R.id.grid3);
-            southEast = itemView.findViewById(R.id.grid4);
-            structure = itemView.findViewById(R.id.image);
+            northWest = itemView.findViewById(R.id.northWest);
+            northEast = itemView.findViewById(R.id.northEast);
+            southWest = itemView.findViewById(R.id.southWest);
+            southEast = itemView.findViewById(R.id.southEast);
+            structure = itemView.findViewById(R.id.landmark);
         }
 
         public void bind(MapElement mapElement) {element = mapElement;
 
-            System.out.println("2");
             northWest.setImageResource(element.getNorthWest());
             northEast.setImageResource(element.getNorthEast());
             southWest.setImageResource(element.getSouthWest());
@@ -68,7 +60,6 @@ public class FragmentMap extends Fragment {
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            System.out.println("2");
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(R.layout.grid_cell,parent,false);
             int size = parent.getMeasuredHeight() / MapData.HEIGHT + 1;
@@ -82,7 +73,6 @@ public class FragmentMap extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            System.out.println("3");
             int row = position % MapData.HEIGHT;
             int col = position / MapData.HEIGHT;
             holder.bind(data.get(row, col));
@@ -90,7 +80,7 @@ public class FragmentMap extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 1;
+            return MapData.HEIGHT * MapData.WIDTH;
         }
     }
 
@@ -107,7 +97,6 @@ public class FragmentMap extends Fragment {
                 false));
         MyAdapter myAdapter = new MyAdapter(data);
         rv.setAdapter(myAdapter);
-        System.out.println("4");
         return view;
     }
 }
