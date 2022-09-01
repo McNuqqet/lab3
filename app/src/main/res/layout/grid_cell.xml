@@ -10,15 +10,16 @@
         android:id="@+id/grid1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        app:layout_constraintBottom_toTopOf="@id/grid3"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/grid2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/grid3"
-        android:background="#00FFFFFF"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintHeight_default="percent"
         app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.5"/>
+        app:srcCompat="@drawable/ic_building2" />
 
     <ImageView
         android:id="@+id/grid2"

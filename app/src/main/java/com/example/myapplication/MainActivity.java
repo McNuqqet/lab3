@@ -5,6 +5,8 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -12,12 +14,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MapData data = MapData.get();
         FragmentManager fm = getSupportFragmentManager();
         FragmentMap fragMap = (FragmentMap) fm.findFragmentById(R.id.map);
         FragmentSelector fragSelector = (FragmentSelector) fm.findFragmentById(R.id.selector);
 
+
         if(fragMap == null) {
-            fragMap = new FragmentMap();
+            fragMap = new FragmentMap(data);
             fm.beginTransaction().add(R.id.map, fragMap).commit();
         }
 
