@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class FragmentMap extends Fragment {
     @Override
@@ -15,7 +17,17 @@ public class FragmentMap extends Fragment {
     {
         View view = inflater.inflate(
                 R.layout.fragment_map, ui, false);
-// Set up event handlers
+        // Set up event handlers
+        RecyclerView recycView = (RecyclerView) view.findViewById(R.id.mapRecyclerView);
+
+        recycView.setLayoutManager(new GridLayoutManager(
+                getActivity(),
+                MapData.HEIGHT,
+                GridLayoutManager.HORIZONTAL,
+                false
+        ));
+
+
         return view;
     }
 }

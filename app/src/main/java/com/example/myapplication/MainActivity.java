@@ -16,9 +16,14 @@ public class MainActivity extends AppCompatActivity {
         FragmentMap fragMap = (FragmentMap) fm.findFragmentById(R.id.map);
         FragmentSelector fragSelector = (FragmentSelector) fm.findFragmentById(R.id.selector);
 
-        fragMap = new FragmentMap();
-        fm.beginTransaction().add(R.id.map, fragMap).commit();
-        fragSelector = new FragmentSelector();
-        fm.beginTransaction().add(R.id.selector, fragSelector).commit();
+        if(fragMap == null) {
+            fragMap = new FragmentMap();
+            fm.beginTransaction().add(R.id.map, fragMap).commit();
+        }
+
+        if(fragSelector == null) {
+            fragSelector = new FragmentSelector();
+            fm.beginTransaction().add(R.id.selector, fragSelector).commit();
+        }
     }
 }
