@@ -22,40 +22,27 @@ public class FragmentMap extends Fragment {
     public FragmentMap(){}
     public FragmentMap(MapData data){this.data = data;}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup ui, Bundle bundle)
-    {
-        View view = inflater.inflate(
-                R.layout.fragment_map, ui, false);
-        // Set up event handlers
-        RecyclerView rv = (RecyclerView) view.findViewById(R.id.mapRecyclerView);
-
-        rv.setLayoutManager(new GridLayoutManager(
-                getActivity(),
-                MapData.HEIGHT,
-                GridLayoutManager.HORIZONTAL,
-                false
-        ));
-
-        Adapter myAdapter = new Adapter(data);
-        rv.setAdapter(myAdapter);
-        return view;
-    }
-
     private class ViewHolder extends RecyclerView.ViewHolder {
         MapElement element;
+        ImageView northWest;
+        ImageView northEast;
+        ImageView southWest;
+        ImageView southEast;
+        ImageView structure;
 
         public ViewHolder(@NonNull View gridCell) {
             super(gridCell);
-            ImageView northWest = (ImageView) gridCell.findViewById(R.id.grid1);
-            ImageView northEast = (ImageView) gridCell.findViewById(R.id.grid2);
-            ImageView southWest = (ImageView) gridCell.findViewById(R.id.grid3);
-            ImageView southEast = (ImageView) gridCell.findViewById(R.id.grid4);
+            northWest = gridCell.findViewById(R.id.grid1);
+            northEast = gridCell.findViewById(R.id.grid2);
+            southWest = gridCell.findViewById(R.id.grid3);
+            southEast = gridCell.findViewById(R.id.grid4);
+            structure = gridCell.findViewById(R.id.image);
+        }
 
-            ImageView structure = (ImageView) gridCell.findViewById(R.id.image);
+        public void bind(MapElement mapElement) {
+            element = mapElement;
 
-            northWest.setImageResource(element.getNorthWest());
+            northWest.setImageResource(R.drawable.ic_building2);//element.getNorthWest());
             northEast.setImageResource(element.getNorthEast());
             southWest.setImageResource(element.getSouthWest());
             southEast.setImageResource(element.getSouthEast());
@@ -64,10 +51,6 @@ public class FragmentMap extends Fragment {
             {
                 structure.setImageResource(element.getStructure().getDrawableId());
             }
-        }
-
-        public void bind(MapElement mapElement) {
-            element = mapElement;
         }
     }
     public class Adapter extends RecyclerView.Adapter<ViewHolder> {
@@ -104,5 +87,26 @@ public class FragmentMap extends Fragment {
         public int getItemCount() {
             return 0;
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup ui, Bundle bundle)
+    {
+        View view = inflater.inflate(
+                R.layout.fragment_map, ui, false);
+        // Set up event handlers
+        RecyclerView rv = (RecyclerView) view.findViewById(R.id.mapRecyclerView);
+
+        rv.setLayoutManager(new GridLayoutManager(
+                getActivity(),
+                MapData.HEIGHT,
+                GridLayoutManager.HORIZONTAL,
+                false
+        ));
+
+        Adapter myAdapter = new Adapter(data);
+        rv.setAdapter(myAdapter);
+        return view;
     }
 }

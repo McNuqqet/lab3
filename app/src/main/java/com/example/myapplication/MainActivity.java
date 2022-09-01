@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         MapData data = MapData.get();
         FragmentManager fm = getSupportFragmentManager();
         FragmentMap fragMap = (FragmentMap) fm.findFragmentById(R.id.map);
