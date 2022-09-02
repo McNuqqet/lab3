@@ -9,13 +9,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 public class FragmentSelector extends Fragment {
     StructureData data;
+    Structure selected = null;
+    //ImageView curImg = null;
+
     public FragmentSelector() {
         // Required empty public constructor
     }
@@ -23,10 +25,12 @@ public class FragmentSelector extends Fragment {
     public FragmentSelector(StructureData data) {
         this.data = data;
     }
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView imageTitle;
-        Structure struct;
-        ImageView image;
+
+    public Structure getSelected(){return this.selected;}
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+        TextView imageTitle = null;
+        ImageView image = null;
+        Structure struct = null;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -34,11 +38,28 @@ public class FragmentSelector extends Fragment {
             image = itemView.findViewById(R.id.image);
         }
 
-        public void bind(Structure structure) {
-            struct = structure;
-            image.setImageResource(struct.getDrawableId());
-            imageTitle.setText(struct.getLabel());
+        public TextView getImageTitle(){return imageTitle;}
+        public ImageView getImage(){return image;}
+        public Structure getStruct(){return struct;}
 
+        public void setImageTitle(TextView text){imageTitle = text;}
+        public void setImage(ImageView img){image = img;}
+        public void setStruct(Structure st){struct = st;}
+
+        public void bind(Structure structure) {
+            image.setImageResource(structure.getDrawableId());
+            imageTitle.setText(structure.getLabel());
+            struct = structure;
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selected = struct;/*
+                    curImg = image;
+                    image.setBackgroundColor(0xFFEEDD00);
+                    getBindingAdapter().notifyItemChanged(getBindingAdapterPosition());*/
+                }
+            });
 
         }
     }
