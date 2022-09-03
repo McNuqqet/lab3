@@ -9,19 +9,24 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 public class FragmentMap extends Fragment {
     MapData data;
+    MyViewModel viewModel;
+
     public FragmentMap() {
-        // Required empty public constructor
+        // Required empty public
     }
 
-    public FragmentMap(MapData data) {
+    public FragmentMap(MapData data, MyViewModel viewModel) {
         this.data = data;
+        this.viewModel = viewModel;
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         MapElement element;
@@ -30,6 +35,7 @@ public class FragmentMap extends Fragment {
         ImageView southWest;
         ImageView southEast;
         ImageView structure;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             northWest = itemView.findViewById(R.id.northWest);
@@ -39,8 +45,8 @@ public class FragmentMap extends Fragment {
             structure = itemView.findViewById(R.id.landmark);
         }
 
-        public void bind(MapElement mapElement) {element = mapElement;
-
+        public void bind(MapElement mapElement) {
+            element = mapElement;
             northWest.setImageResource(element.getNorthWest());
             northEast.setImageResource(element.getNorthEast());
             southWest.setImageResource(element.getSouthWest());
@@ -50,6 +56,29 @@ public class FragmentMap extends Fragment {
             {
                 structure.setImageResource(element.getStructure().getDrawableId());
             }
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        if(element.isBuildable() && (element.getStructure() == null ||
+                                viewModel.getData().getValue().getDrawableId() != element.getStructure().getDrawableId())) {
+
+                            element.setStructure(viewModel.getData().getValue());
+                            structure.setImageResource(element.getStructure().getDrawableId());
+                            System.out.println(element.getStructure().getDrawableId());
+                            //getBindingAdapter().notifyItemChanged(getBindingAdapterPosition());
+                        }
+                        else if(element.isBuildable()){
+                            element.setStructure(null);
+                            structure.setImageResource(0);
+                        }
+                    }
+                    catch(Exception e){
+                        System.out.println("Invalid data");
+                    }
+                }
+            });
         }
     }
     public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
@@ -86,7 +115,6 @@ public class FragmentMap extends Fragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -99,6 +127,14 @@ public class FragmentMap extends Fragment {
                 false));
         MyAdapter myAdapter = new MyAdapter(data);
         rv.setAdapter(myAdapter);
+/*
+        final Observer<Integer> obs = new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                drawableID = integer.intValue();
+            }
+        };*/
+
         return view;
     }
 }

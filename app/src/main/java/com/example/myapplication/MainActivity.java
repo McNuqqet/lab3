@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,14 +24,15 @@ public class MainActivity extends AppCompatActivity {
         StructureData structData = StructureData.get();
         FragmentSelector fragSelector = (FragmentSelector) fm.findFragmentById(R.id.selector);
 
+        MyViewModel viewModel = new ViewModelProvider(this).get(MyViewModel.class);
 
         if(fragMap == null) {
-            fragMap = new FragmentMap(mapData);
+            fragMap = new FragmentMap(mapData, viewModel);
             fm.beginTransaction().add(R.id.map, fragMap).commit();
         }
 
         if(fragSelector == null) {
-            fragSelector = new FragmentSelector(structData);
+            fragSelector = new FragmentSelector(structData, viewModel);
             fm.beginTransaction().add(R.id.selector, fragSelector).commit();
         }
     }

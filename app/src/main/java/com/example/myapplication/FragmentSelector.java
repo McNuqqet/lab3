@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FragmentSelector extends Fragment {
     StructureData data;
+    MyViewModel viewModel;
     Structure selected = null;
     //ImageView curImg = null;
 
@@ -22,20 +23,22 @@ public class FragmentSelector extends Fragment {
         // Required empty public constructor
     }
 
-    public FragmentSelector(StructureData data) {
+    public FragmentSelector(StructureData data, MyViewModel viewModel) {
         this.data = data;
+        this.viewModel = viewModel;
     }
 
     public Structure getSelected(){return this.selected;}
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView imageTitle = null;
-        ImageView image = null;
-        Structure struct = null;
+        TextView imageTitle;
+        ImageView image;
+        Structure struct;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageTitle = itemView.findViewById(R.id.imageTitle);
             image = itemView.findViewById(R.id.image);
+            struct = null;
         }
 
         public TextView getImageTitle(){return imageTitle;}
@@ -54,10 +57,17 @@ public class FragmentSelector extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    selected = struct;/*
-                    curImg = image;
-                    image.setBackgroundColor(0xFFEEDD00);
-                    getBindingAdapter().notifyItemChanged(getBindingAdapterPosition());*/
+                    selected = struct;
+                    try {
+                        viewModel.getData().setValue(selected);
+                        System.out.println(selected.getDrawableId());
+                    }
+                    catch(Exception e){
+                        System.out.println("Null data");
+                    }
+                    //if(image.ge)
+                    //image.setBackgroundColor(0xFFEEDD00);
+                    //getBindingAdapter().notifyItemChanged(getBindingAdapterPosition());
                 }
             });
 

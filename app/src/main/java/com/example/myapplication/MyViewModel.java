@@ -1,11 +1,13 @@
 package com.example.myapplication;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class MyViewModel extends ViewModel {
-    private LiveData<Structure> viewModel = null;
+    private MutableLiveData<Structure> data;
 
-    public LiveData<Structure> getData(){return viewModel;}
+    public MutableLiveData<Structure> getData() {
+        if(data == null){data = new MutableLiveData<Structure>();}
+        return data;
+    }
 }
