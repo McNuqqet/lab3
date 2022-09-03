@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class FragmentMap extends Fragment {
     MapData data;
     MyViewModel viewModel;
+    private int mCounter;
 
     public FragmentMap() {
         // Required empty public
@@ -61,13 +62,14 @@ public class FragmentMap extends Fragment {
                 @Override
                 public void onClick(View view) {
                     try {
+                        Structure viewData = viewModel.getData().getValue();
                         if(element.isBuildable() && (element.getStructure() == null ||
-                                viewModel.getData().getValue().getDrawableId() != element.getStructure().getDrawableId())) {
+                                (viewData.getDrawableId() != element.getStructure().getDrawableId()))) {
 
-                            element.setStructure(viewModel.getData().getValue());
+                            element.setStructure(viewData);
                             structure.setImageResource(element.getStructure().getDrawableId());
                             System.out.println(element.getStructure().getDrawableId());
-                            //getBindingAdapter().notifyItemChanged(getBindingAdapterPosition());
+                            getBindingAdapter().notifyItemChanged(getBindingAdapterPosition());
                         }
                         else if(element.isBuildable()){
                             element.setStructure(null);
@@ -77,6 +79,7 @@ public class FragmentMap extends Fragment {
                     catch(Exception e){
                         System.out.println("Invalid data");
                     }
+                    itemView.setOnClickListener(null);
                 }
             });
         }
@@ -93,10 +96,10 @@ public class FragmentMap extends Fragment {
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(R.layout.grid_cell,parent,false);
-            int size = parent.getMeasuredHeight() / MapData.HEIGHT + 1;
+            int size = parent.getMeasuredHeight() / MapData.HEIGHT;
             ViewGroup.LayoutParams lp = view.getLayoutParams();
-            lp.width = size;
-            lp.height = size;
+            lp.width = size - size % 2 + 2;
+            lp.height = size - size % 2 + 2;
 
             MyViewHolder myViewHolder = new MyViewHolder(view);
             return myViewHolder;
@@ -118,15 +121,23 @@ public class FragmentMap extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = null;
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
-        RecyclerView rv = view.findViewById(R.id.mapRecyclerView);
-        rv.setLayoutManager(new GridLayoutManager(getActivity(),
-                MapData.HEIGHT,
-                GridLayoutManager.HORIZONTAL,
-                false));
-        MyAdapter myAdapter = new MyAdapter(data);
-        rv.setAdapter(myAdapter);
+        if (savedInstanceState == null)
+        {
+            view = inflater.inflate(R.layout.fragment_map, container, false);
+            RecyclerView rv = view.findViewById(R.id.mapRecyclerView);
+            rv.setLayoutManager(new GridLayoutManager(getActivity(),
+                    MapData.HEIGHT,
+                    GridLayoutManager.HORIZONTAL,
+                    false));
+
+            MyAdapter myAdapter = new MyAdapter(data);
+            rv.setAdapter(myAdapter);
+        }
+        else{
+            mCounter = savedInstanceState.getInt("counter", 0);
+        }
 /*
         final Observer<Integer> obs = new Observer<Integer>() {
             @Override
@@ -136,6 +147,12 @@ public class FragmentMap extends Fragment {
         };*/
 
         return view;
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // Make sure to call the super method so that the states of our views are saved
+        super.onSaveInstanceState(outState);
+        outState.putInt("counter", mCounter);
     }
 }
 

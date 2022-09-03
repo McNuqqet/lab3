@@ -20,9 +20,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FragmentManager fm = getSupportFragmentManager();
         FragmentMap fragMap = (FragmentMap) fm.findFragmentById(R.id.map);
+        FragmentSelector fragSelector = (FragmentSelector) fm.findFragmentById(R.id.selector);
+
         MapData mapData = MapData.get();
         StructureData structData = StructureData.get();
-        FragmentSelector fragSelector = (FragmentSelector) fm.findFragmentById(R.id.selector);
 
         MyViewModel viewModel = new ViewModelProvider(this).get(MyViewModel.class);
 
@@ -30,10 +31,16 @@ public class MainActivity extends AppCompatActivity {
             fragMap = new FragmentMap(mapData, viewModel);
             fm.beginTransaction().add(R.id.map, fragMap).commit();
         }
+        else{
+            getSupportFragmentManager().findFragmentById(R.id.map);
+        }
 
         if(fragSelector == null) {
             fragSelector = new FragmentSelector(structData, viewModel);
             fm.beginTransaction().add(R.id.selector, fragSelector).commit();
+        }
+        else{
+            getSupportFragmentManager().findFragmentById(R.id.selector);
         }
     }
 }

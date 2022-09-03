@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ public class FragmentSelector extends Fragment {
     StructureData data;
     MyViewModel viewModel;
     Structure selected = null;
+    private int mCounter;
     //ImageView curImg = null;
 
     public FragmentSelector() {
@@ -40,14 +42,6 @@ public class FragmentSelector extends Fragment {
             image = itemView.findViewById(R.id.image);
             struct = null;
         }
-
-        public TextView getImageTitle(){return imageTitle;}
-        public ImageView getImage(){return image;}
-        public Structure getStruct(){return struct;}
-
-        public void setImageTitle(TextView text){imageTitle = text;}
-        public void setImage(ImageView img){image = img;}
-        public void setStruct(Structure st){struct = st;}
 
         public void bind(Structure structure) {
             image.setImageResource(structure.getDrawableId());
@@ -74,7 +68,6 @@ public class FragmentSelector extends Fragment {
         }
     }
     public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
-
         StructureData data;
 
         public MyAdapter(StructureData data){
@@ -100,17 +93,31 @@ public class FragmentSelector extends Fragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_selector, container, false);
-        RecyclerView rv = view.findViewById(R.id.selectorRecyclerView);
-        rv.setLayoutManager(new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.HORIZONTAL, false));
-        MyAdapter myAdapter = new MyAdapter(data);
-        rv.setAdapter(myAdapter);
+        View view = null;
+        if(savedInstanceState == null) {
+
+            view = inflater.inflate(R.layout.fragment_selector, container, false);
+            RecyclerView rv = view.findViewById(R.id.selectorRecyclerView);
+            rv.setLayoutManager(new LinearLayoutManager(getActivity(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false));
+            MyAdapter myAdapter = new MyAdapter(data);
+            rv.setAdapter(myAdapter);
+        }
+        else{
+            mCounter = savedInstanceState.getInt("counter", 0);
+        }
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // Make sure to call the super method so that the states of our views are saved
+        super.onSaveInstanceState(outState);
+        outState.putInt("counter", mCounter);
     }
 }
